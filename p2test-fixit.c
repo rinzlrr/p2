@@ -4,7 +4,7 @@
 
 // Include local header files
 
-#include "p2.h"
+#include "pretty.h"
 #include "teddyBear.h"
 #include "sally.h"
 
