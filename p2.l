@@ -105,10 +105,10 @@ void write_html_char(int c) {
 	    printf("&gt;");
 	    break;
 	case '"':
-	    something;
+	    printf("&quot;");
 	    break;
 	case '&':
-	    something;
+	    printf("&amp;");
 	    break;
 	case '\n':
 	    if (inComment) {
