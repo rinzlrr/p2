@@ -9,8 +9,8 @@ CFLAGS=$(COFLAGS) $(CWFLAGS)
 
 all:		pretty
 
-pretty.c:	pretty.l pretty.h
-		$(LEX) -o pretty.c pretty.l
+pretty.c:	p2.l pretty.h
+		$(LEX) -o pretty.c p2.l
 
 pretty.o:	pretty.c pretty.h
 		$(CC) $(CFLAGS) -c pretty.c

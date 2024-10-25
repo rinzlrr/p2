@@ -44,15 +44,15 @@ void write_directive();
 
 quote	\'
 ditto	\"
-delim	
-ws	
-alpha
-digit
-oct	
-exp	
-hex	
-id	
-number	
+delim	[ ,;]  
+ws	    [ \t\n\r\f\v] 
+alpha   [a-zA-Z_]
+digit   [0-9]
+oct     0[0-7]+
+exp     [eE][-+]?[0-9]+
+hex	    0[xX][0-9a-fA-F]+
+id	    {alpha}({alpha}|{digit})*
+number	{digit}+(\.{digit}+)?({exp})?
 
 %%
 
