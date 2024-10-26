@@ -7,25 +7,27 @@ CWFLAGS=-Wall -Wextra
 
 CFLAGS=$(COFLAGS) $(CWFLAGS)
 
-all:		pretty
+all:		p2
 
-pretty.c:	p2.l pretty.h
-		$(LEX) -o pretty.c p2.l
+p2.c:	p2.l p2.h
+		$(LEX) -o p2.c p2.l
 
-pretty.o:	pretty.c pretty.h
-		$(CC) $(CFLAGS) -c pretty.c
+p2.o:	p2.c p2.h
+		$(CC) $(CFLAGS) -c p2.c
 
-error.o:	error.c pretty.h
+error.o:	error.c p2.h
 		$(CC) $(CFLAGS) -c error.c
 
-init.o:		init.c pretty.h
+init.o:		init.c p2.h
 		$(CC) $(CFLAGS) -c init.c
 
-symbol.o:	symbol.c pretty.h
+symbol.o:	symbol.c p2.h
 		$(CC) $(CFLAGS) -c symbol.c
 
-pretty:		pretty.o error.o init.o symbol.o pretty.h
-		$(CC) $(CFLAGS) -o pretty pretty.o error.o init.o symbol.o
+p2:		p2.o error.o init.o symbol.o p2.h
+		$(CC) $(CFLAGS) -o p2 p2.o error.o init.o symbol.o
 
 clean:	
-		rm -f *.o pretty.c pretty
+		rm -f *.o p2.c p2
+
+
