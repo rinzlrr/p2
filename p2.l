@@ -2,7 +2,7 @@
 # TO BE NAMED p2.l
 
 #include <stdio.h>
-#include "pretty.h"
+#include "p2.h"
 
 #define TRUE (1)
 #define FALSE (0)
