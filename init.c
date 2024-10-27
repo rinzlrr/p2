@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "pretty.h"
+#include "p2.h"
 
 void
 myInit() {
@@ -31,4 +31,6 @@ myInit() {
     installID("typedef", TYPEDEF, -1);
     installID("sizeof", SIZEOF, -1);
 }
+
+
 

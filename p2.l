@@ -1,5 +1,5 @@
 %{
-# TO BE NAMED p2.l
+
 
 #include <stdio.h>
 #include "p2.h"
@@ -40,19 +40,19 @@ void write_directive();
 %}
 
 %option	noyywrap
-%option	yylineno
+%option	yylineno  
 
 quote	\'
 ditto	\"
 delim	[ ,;]  
 ws	    [ \t\n\r\f\v] 
-alpha   [a-zA-Z_]
+alpha   [a-zA-Z_] 
 digit   [0-9]
 oct     0[0-7]+
 exp     [eE][-+]?[0-9]+
 hex	    0[xX][0-9a-fA-F]+
 id	    {alpha}({alpha}|{digit})*
-number	{digit}+(\.{digit}+)?({exp})?
+number	{digit}+(\.{digit}+)?({exp})? 
 
 %%
 
@@ -60,25 +60,31 @@ number	{digit}+(\.{digit}+)?({exp})?
 {ws}				{ /* no action and no return */ }
 {quote}([^']|\\')*{quote}	write_char();
 {ditto}([^"]|\\\")*{ditto}	write_string();
-something			write_oct();
-something			write_hex();
-something			write_int();
-something	                write_fp();
-something	                write_id();
-left curly			write_begin();
-something			write_end();
-left_paren			write_open();
-something			write_close();
+{oct}       		write_oct();            //joshua
+{hex}   			write_hex();            //joshua
+{digit}+			write_int();            //joshua
+{number}	                write_fp();     //joshua
+{id}    	                write_id();     //joshua
+"{"     			write_begin();
+"}"     			write_end();
+"("     			write_open();
+")"     			write_close();
 "["				write_bopen();
-"]"				write_bclose();
+"]"				write_bclose();         //JOSHUA WROTE THESE RULES
 ";"				write_sep();
-"+"				|
+"+"				| 
 "+="				|
-many more such lines            |
-"::"				write_op();
-inline comment			write_inline();
-/* */ style comment     	write_comment();
-#define type command    	write_directive();
+"&&"            |               
+"::"	|	
+"||" |	                //joshua
+"==" |                  //joshua
+"!=" |                  //joshua
+"!" |
+"%" |	
+= |                 write_op();     //joshua
+"//".*     			write_inline(); //joshua
+"/*"([^*]|(\*+[^*/]))*\*+"/"      	write_comment(); //joshua
+"#"(define|include)[ \t]+.*    	write_directive();   //joshua
 .				printf("unrecognized input at line %d", yylineno);
 
 %%
@@ -105,10 +111,10 @@ void write_html_char(int c) {
 	    printf("&gt;");
 	    break;
 	case '"':
-	    printf("&quot;");
+	    printf("&quot;"); //joshua
 	    break;
 	case '&':
-	    printf("&amp;");
+	    printf("&amp;"); //joshua
 	    break;
 	case '\n':
 	    if (inComment) {
@@ -138,23 +144,53 @@ void write_char() {
 }
 
 void write_string() {
-    something;
+      if (debug) {
+        fprintf(stderr, "write_string: %s\n", yytext);
+    }
+    printf("<font color='red'>\"");
+    write_html();
+    printf("\"</font> ");
+    //joshua 
 }
 
 void write_oct() {
-    something;
+    if (debug) {
+        fprintf(stderr, "write_oct: %s\n", yytext);
+    }
+    printf("<i><font color='brown'>");
+    write_html();
+    printf("</font></i> ");
+    //joshua
 }
 
 void write_hex() {
-    something;
+        if (debug) {
+        fprintf(stderr, "write_hex: %s\n", yytext);
+    }
+    printf("<i><font color='brown'>");
+    write_html();
+    printf("</font></i> ");
 }
 
+
 void write_int() {
-    something;
+     if (debug) {
+        fprintf(stderr, "write_int: %s\n", yytext);
+    }
+    printf("<font color='brown'>");
+    write_html();
+    printf("</font> ");
+    //joshua
 }
 
 void write_fp() {
-    something;
+    if (debug) {
+        fprintf(stderr, "write_fp: %s\n", yytext);
+    }
+    printf("<font color='brown'>");
+    write_html();
+    printf("</font> ");
+    //joshua
 }
 
 void write_id() {
@@ -198,7 +234,11 @@ write_begin() {
 
 void
 write_end() {
-    something;
+    column -= INDENT;
+    write_indent();
+    write_html();
+    write_indent();
+    //joshua
 }
 
 void
@@ -209,7 +249,9 @@ write_open() {
 
 void
 write_close() {
-    something;
+    write_html();
+    paren--;
+    //joshua
 }
 
 void
@@ -220,7 +262,8 @@ write_bopen() {
 
 void
 write_bclose() {
-    something;
+    write_html();  
+    paren--;       // Decreases the `paren` counter, if it's used to track nesting
 }
 
 void
@@ -250,7 +293,14 @@ write_op() {
 
 void
 write_inline() {
-    something;
+    if (debug) {
+        fprintf(stderr, "write_inline: %s\n", yytext);
+    }
+    printf("<font color='green'>");
+    write_html();
+    printf("</font>");
+    write_indent();
+    //joshua
 }
 
 void
@@ -268,5 +318,12 @@ write_comment() {
 
 void
 write_directive() {
-    something;
+    if (debug) {
+        fprintf(stderr, "write_directive: %s\n", yytext);
+    }
+    printf("<b><font color='magenta'>");
+    write_html();
+    printf("</font></b>");
+    write_indent();
+    //joshua
 }

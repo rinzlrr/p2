@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "pretty.h"
+#include "p2.h"
 
 struct entry symtable[SYMMAX];
 

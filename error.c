@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pretty.h"
+#include "p2.h"
 
 void error(char *m) {
     //fprintf(stderr, "line %d: %s\n", lineno, m);
